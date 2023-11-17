@@ -23,7 +23,7 @@ public class Mission extends BaseEntity {
     private Integer reward;
 
     private LocalDate deadline;
-    
+
     private String missionSpec;
 
     @ManyToOne(fetch = FetchType.LAZY)
