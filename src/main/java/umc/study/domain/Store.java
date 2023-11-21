@@ -4,6 +4,8 @@ import lombok.*;
 import umc.study.domain.common.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -23,4 +25,7 @@ public class Store extends BaseEntity {
     private String address;
 
     private Float score;
+
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
 }
