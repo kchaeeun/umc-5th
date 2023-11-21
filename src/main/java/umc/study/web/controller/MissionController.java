@@ -2,10 +2,7 @@ package umc.study.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import umc.study.apiPayload.ApiResponse;
 import umc.study.converter.MemberConverter;
 import umc.study.converter.MissionConverter;
@@ -30,6 +27,14 @@ public class MissionController {
     @PostMapping("/")                                                 // @Valid 떄문에 @ExistCategories 예외가 바로 전달X
     public ApiResponse<MissionResponseDTO.MissionResultDTO> mission(@RequestBody @Valid MissionRequestDTO.MissionDto request){
         Mission mission = missionCommandService.mission(request);
+        return ApiResponse.onSuccess(MissionConverter.toMissionResultDTO(mission));
+    }
+
+    @PutMapping("/{missionId}/status")
+    public ApiResponse<MissionResponseDTO.MissionResultDTO> updateMissionStatus(
+            @PathVariable Long missionId,
+            @RequestBody @Valid MissionRequestDTO.MissionStatusDto request) {
+        Mission mission = missionCommandService.updateMissionStatus(missionId, request);
         return ApiResponse.onSuccess(MissionConverter.toMissionResultDTO(mission));
     }
 }
