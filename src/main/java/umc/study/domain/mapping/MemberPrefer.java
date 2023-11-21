@@ -5,8 +5,10 @@ import umc.study.domain.FoodCategory;
 import umc.study.domain.Member;
 import umc.study.domain.common.BaseEntity;
 import umc.study.domain.enums.MissionStatus;
+import umc.study.repository.FoodCategoryRepository;
 
 import javax.persistence.*;
+import java.util.Enumeration;
 
 @Entity
 @Getter
@@ -27,5 +29,16 @@ public class MemberPrefer extends BaseEntity {
     @JoinColumn(name = "category_id")
     private FoodCategory foodCategory;
 
+    public void setMember(Member member) {
+        if (this.member != null)
+            member.getMemberPreferList().remove(this);
+        this.member = member;
+        member.getMemberPreferList().add(this);
+
+    }
+
+    public void setFoodCategory(FoodCategory foodCategory) {
+        this.foodCategory = foodCategory;
+    }
 
 }
