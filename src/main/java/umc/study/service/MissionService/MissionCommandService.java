@@ -7,4 +7,7 @@ import umc.study.web.dto.MissionRequestDTO;
 
 public interface MissionCommandService {
     Mission mission(MissionRequestDTO.MissionDto request);
+
+    // PUT - missionId 사용
+    Mission updateMissionStatus(Long missionId, MissionRequestDTO.MissionStatusDto request);
 }

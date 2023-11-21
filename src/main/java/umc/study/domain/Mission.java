@@ -2,6 +2,8 @@ package umc.study.domain;
 
 import lombok.*;
 import umc.study.domain.common.BaseEntity;
+import umc.study.domain.enums.MemberStatus;
+import umc.study.domain.enums.MissionStatus;
 import umc.study.domain.mapping.MemberMission;
 import umc.study.domain.mapping.MissionStore;
 
@@ -27,6 +29,10 @@ public class Mission extends BaseEntity {
 
     private String missionSpec;
 
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "VARCHAR(15) DEFAULT 'NONE'")
+    private MissionStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
@@ -36,4 +42,8 @@ public class Mission extends BaseEntity {
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MissionStore> missionStoreList = new ArrayList<>();
+
+    public void setStatus(MissionStatus status) {
+        this.status = status;
+    }
 }

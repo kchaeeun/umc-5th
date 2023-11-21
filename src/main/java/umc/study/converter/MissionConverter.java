@@ -2,6 +2,8 @@ package umc.study.converter;
 
 import umc.study.domain.Mission;
 import umc.study.domain.Review;
+import umc.study.domain.enums.Gender;
+import umc.study.domain.enums.MissionStatus;
 import umc.study.web.dto.MissionRequestDTO;
 import umc.study.web.dto.MissionResponseDTO;
 import umc.study.web.dto.ReviewRequestDTO;

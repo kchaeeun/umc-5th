@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import umc.study.apiPayload.code.status.ErrorStatus;
 import umc.study.apiPayload.exception.handler.FoodCategoryHandler;
+import umc.study.apiPayload.exception.handler.MissionHandler;
 import umc.study.apiPayload.exception.handler.StoreHandler;
 import umc.study.converter.MemberConverter;
 import umc.study.converter.MemberPreferConverter;
@@ -13,6 +14,7 @@ import umc.study.domain.FoodCategory;
 import umc.study.domain.Member;
 import umc.study.domain.Mission;
 import umc.study.domain.Store;
+import umc.study.domain.enums.MissionStatus;
 import umc.study.domain.mapping.MemberPrefer;
 import umc.study.domain.mapping.MissionStore;
 import umc.study.repository.FoodCategoryRepository;
@@ -50,5 +52,18 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         missionStoreList.forEach(missionStore -> {missionStore.setMission(newMission);});
 
         return missionRepository.save(newMission);
+    }
+
+    @Override
+    public Mission updateMissionStatus(Long missionId, MissionRequestDTO.MissionStatusDto request) {
+        Mission mission = missionRepository.findById(missionId)
+                .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
+
+        // Enum.valueOf 메서드를 사용하여 문자열로부터 Enum 타입을 얻어옴
+
+        mission.setStatus(request.getStatus());
+
+        // 미션 상태에 따른 추가 로직이 있다면 여기에 추가할 수 있습니다.
+        return missionRepository.save(mission);
     }
 }
