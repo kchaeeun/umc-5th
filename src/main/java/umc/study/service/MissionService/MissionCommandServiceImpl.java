@@ -59,8 +59,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new MissionHandler(ErrorStatus.MISSION_NOT_FOUND));
 
-        // Enum.valueOf 메서드를 사용하여 문자열로부터 Enum 타입을 얻어옴
-
+        // converter에서 하는 걸 바로 실행함
         mission.setStatus(request.getStatus());
 
         // 미션 상태에 따른 추가 로직이 있다면 여기에 추가할 수 있습니다.
