@@ -23,8 +23,11 @@ public class ReviewConverter {
         return Review.builder()
                 .title(request.getTitle())
                 .score(request.getScore())
+                .body(request.getBody())
                 .reviewMemberList(new ArrayList<>())
                 .reviewStoreList(new ArrayList<>())
                 .build();
     }
+
+
 }

@@ -38,25 +38,26 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     @Override
     @Transactional
     public Review review(ReviewRequestDTO.ReviewDto request) {
-
         // Review 엔티티 생성
         Review newReview = ReviewConverter.toReview(request);
-        List<Member> memberList = request.getMemberId().stream()
-                .map(member -> {
-                    return memberRepository.findById(member).orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
-                }).collect(Collectors.toList());
 
-        List<ReviewMember> reviewMemberList = ReviewMemberConverter.toReviewMemberList(memberList);
-        reviewMemberList.forEach(reviewMember -> {reviewMember.setReview(newReview);});
+        // Member 조회
+        Member member = memberRepository.findById(request.getMemberId())
+                .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
 
-        List<Store> storeList = request.getStoreId().stream()
-                .map(store -> {
-                    return storeRepository.findById(store).orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
-                }).collect(Collectors.toList());
+        // ReviewMember 생성 및 연결
+        ReviewMember reviewMember = ReviewMemberConverter.toReviewMember(member);
+        reviewMember.setReview(newReview);
 
-        List<ReviewStore> reviewStoreList = ReviewStoreConverter.toReviewStoreList(storeList);
-        reviewStoreList.forEach(reviewStore -> {reviewStore.setReview(newReview);});
+        // Store 조회
+        Store store = storeRepository.findById(request.getStoreId())
+                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+
+        // ReviewStore 생성 및 연결
+        ReviewStore reviewStore = ReviewStoreConverter.toReviewStore(store);
+        reviewStore.setReview(newReview);
 
         return reviewRepository.save(newReview);
     }
+
 }

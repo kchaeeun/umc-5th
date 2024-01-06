@@ -9,14 +9,20 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ReviewMemberConverter {
-    public static List<ReviewMember> toReviewMemberList(List<Member> memberList){
 
-        return memberList.stream()
-                .map(member ->
-                       ReviewMember.builder()
-                                .member(member)
-                                .build()
-                ).collect(Collectors.toList());
+    public static ReviewMember toReviewMember(Member member) {
+        return ReviewMember.builder()
+                .member(member)
+                .build();
     }
+//    public static List<ReviewMember> toReviewMemberList(List<Member> memberList){
+//
+//        return memberList.stream()
+//                .map(member ->
+//                       ReviewMember.builder()
+//                                .member(member)
+//                                .build()
+//                ).collect(Collectors.toList());
+//    }
 
 }
