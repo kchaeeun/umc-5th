@@ -10,7 +10,8 @@ public class ReviewRequestDTO {
     public static class ReviewDto{
         String title;
         Float score;
-        List<Long> memberId;
-        List<Long> storeId;
+        String body;
+        Long memberId;
+        Long storeId;
     }
 }
