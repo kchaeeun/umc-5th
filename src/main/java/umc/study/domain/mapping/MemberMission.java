@@ -10,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,14 +22,23 @@ public class MemberMission extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(15)")
-    private MissionStatus status;
+    private MissionStatus status = MissionStatus.CHALLENGING;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "missionStore_id")
+    private MissionStore missionStore;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id")
     private Mission mission;
+
+    public MemberMission(Member member, MissionStore missionStore) {
+        this.member = member;
+        this.missionStore = missionStore;
+    }
 
 }
