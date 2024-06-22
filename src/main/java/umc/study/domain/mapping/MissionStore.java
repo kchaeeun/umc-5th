@@ -31,6 +31,11 @@ public class MissionStore extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
+    public MissionStore(Mission mission, Store store) {
+        this.mission = mission;
+        this.store = store;
+    }
+
     public void setMission(Mission mission) {
         if (this.mission != null)
             mission.getMissionStoreList().remove(this);

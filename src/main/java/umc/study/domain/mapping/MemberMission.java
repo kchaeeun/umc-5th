@@ -32,9 +32,9 @@ public class MemberMission extends BaseEntity {
     @JoinColumn(name = "missionStore_id")
     private MissionStore missionStore;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mission_id")
-    private Mission mission;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "mission_id")
+//    private Mission mission;
 
     public MemberMission(Member member, MissionStore missionStore) {
         this.member = member;

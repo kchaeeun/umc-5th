@@ -37,8 +37,8 @@ public class Mission extends BaseEntity {
     @JoinColumn(name = "store_id")
     private Store store;
 
-    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
-    private List<MemberMission> memberMissionList = new ArrayList<>();
+//    @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
+//    private List<MemberMission> memberMissionList = new ArrayList<>();
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL)
     private List<MissionStore> missionStoreList = new ArrayList<>();
