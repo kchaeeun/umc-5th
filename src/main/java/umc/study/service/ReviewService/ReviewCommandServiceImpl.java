@@ -14,10 +14,7 @@ import umc.study.domain.Store;
 import umc.study.domain.mapping.MemberPrefer;
 import umc.study.domain.mapping.ReviewMember;
 import umc.study.domain.mapping.ReviewStore;
-import umc.study.repository.FoodCategoryRepository;
-import umc.study.repository.MemberRepository;
-import umc.study.repository.ReviewRepository;
-import umc.study.repository.StoreRepository;
+import umc.study.repository.*;
 import umc.study.web.dto.MemberRequestDTO;
 import umc.study.web.dto.ReviewRequestDTO;
 
@@ -34,6 +31,8 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
+    private final ReviewStoreRepository reviewStoreRepository;
+    private final ReviewMemberRepository reviewMemberRepository;
 
     @Override
     @Transactional
@@ -44,20 +43,27 @@ public class ReviewCommandServiceImpl implements ReviewCommandService {
         // Member 조회
         Member member = memberRepository.findById(request.getMemberId())
                 .orElseThrow(() -> new MemberHandler(ErrorStatus.MEMBER_NOT_FOUND));
+        newReview.setMember(member);
+
+        // Store 조회
+        Store store = storeRepository.findById(request.getStoreId())
+                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
+        newReview.setStore(store);
 
         // ReviewMember 생성 및 연결
         ReviewMember reviewMember = ReviewMemberConverter.toReviewMember(member);
         reviewMember.setReview(newReview);
 
-        // Store 조회
-        Store store = storeRepository.findById(request.getStoreId())
-                .orElseThrow(() -> new StoreHandler(ErrorStatus.STORE_NOT_FOUND));
-
         // ReviewStore 생성 및 연결
         ReviewStore reviewStore = ReviewStoreConverter.toReviewStore(store);
         reviewStore.setReview(newReview);
 
-        return reviewRepository.save(newReview);
+        Review savedReview = reviewRepository.save(newReview);
+
+        reviewMemberRepository.save(reviewMember);
+        reviewStoreRepository.save(reviewStore);
+
+        return savedReview;
     }
 
 }
